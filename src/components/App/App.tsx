@@ -1,47 +1,20 @@
-import { createBrowserRouter, Navigate, RouterProvider, useRouteError } from 'react-router-dom';
+import { Route, Routes, useRouteError } from 'react-router-dom';
+
 import Layout from '../Layout/Layout';
-
-import PopularMovies from '../PopularMovies/PopularMovies';
-import SearchResult from '../SearchResult/SearchResult';
-
-import '../../index.css';
-import MovieDetail from '../MovieDetail/MovieDetail';
-
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: <Layout />,
-    errorElement: <RootErrorBoundary />,
-    children: [
-      {
-        path: '/',
-        element: <PopularMovies />,
-        errorElement: <RootErrorBoundary />,
-      },
-      {
-        path: '/movie/:movieId',
-        element: <MovieDetail />,
-        errorElement: <RootErrorBoundary />,
-      },
-      {
-        path: '/search',
-        element: <Navigate to="/" />,
-      },
-      {
-        path: '/search/:query',
-        element: <SearchResult />,
-        errorElement: <RootErrorBoundary />,
-      },
-    ],
-  },
-]);
+import MovieDetail from '../Movies/MovieDetail';
+import Movies from '../Movies/Movies';
+import SearchResult from '../Search/SearchResult';
 
 export default function App() {
-  return <RouterProvider router={router} fallbackElement={<Fallback />} />;
-}
-
-export function Fallback() {
-  return <>Loading…</>;
+  return (
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Movies title="This is the title" endpoint="/movie/popular" />} />
+        <Route path="/movie/:movieId" element={<MovieDetail />} />
+        <Route path="/search" element={<SearchResult />} />
+      </Route>
+    </Routes>
+  );
 }
 
 export function RootErrorBoundary() {

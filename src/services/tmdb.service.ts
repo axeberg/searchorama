@@ -1,95 +1,155 @@
-export type Movie = {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: number[];
+import { Option, encodeURLParamString } from '../utils/encodeURLParamString';
+
+export interface Genre {
   id: number;
+  name: string;
+}
+
+export interface ProductionCompany {
+  name: string;
+  id: number;
+  logo_path: string | null;
+  origin_country: string;
+}
+
+export interface ProductionCountry {
+  iso_3166_1: string;
+  name: string;
+}
+
+export interface Language {
+  iso_639_1: string;
+  name: string;
+}
+
+export interface Movie {
+  adult: boolean;
+  backdrop_path: string | null;
+  belongs_to_collection: object | null;
+  budget: number;
+  genres: Genre[];
+  homepage: string | null;
+  id: number;
+  imdb_id: string | null;
   original_language: string;
   original_title: string;
-  overview: string;
+  overview: string | null;
   popularity: number;
-  poster_path: string;
+  poster_path: string | null;
+  production_companies: ProductionCompany[];
+  production_countries: ProductionCountry[];
   release_date: string;
+  revenue: number;
+  runtime: number;
+  spoken_languages: Language[];
+  status: string;
+  tagline: string | null;
   title: string;
   video: boolean;
   vote_average: number;
   vote_count: number;
-};
+}
 
-interface Search<Movie> {
+export interface MovieListResult {
+  adult: boolean;
+  backdrop_path: string | null;
+  id: number;
+  video: boolean;
+  genre_ids: number[];
+  original_language: string;
+  original_title: string;
+  overview: string | null;
+  popularity: number;
+  poster_path: string | null;
+  release_date: string;
+  title: string;
+  vote_average: number;
+  vote_count: number;
+}
+
+export interface TmdbApiResponsePaginated<T> {
   page: number;
-  results: Movie[];
-}
-
-interface SearchOptions {
-  query: string;
-  page?: number;
-}
-
-interface MovieSearchOptions extends SearchOptions {
-  year?: number;
-  primary_release_year?: number;
-}
-
-interface HttpResponse<T> extends Response {
-  parsedBody?: T;
-}
-
-interface TmdbApiResponse<T> extends HttpResponse<T> {
-  page: number;
-  results: Movie[];
+  results: T;
   total_pages: number;
   total_results: number;
 }
 
-const API_BASE_SEARCH = '/search';
-const API_BASE_MOVIE = '/movie';
+export interface TmdbApiError {
+  status_message: string;
+  success: boolean;
+  status_code: number;
+}
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || '';
+const API_ACCESS_TOKEN =
+  process.env.REACT_APP_TMDB_ACCESS_KEY || 'invalid-token';
 
-export default class Tmdb {
-  private accessToken: string;
+export const fetchTmdb = async <T>(
+  path: string,
+  options: Option[] = [],
+): Promise<T> => {
+  const queryString = encodeURLParamString(options);
 
-  constructor(accessToken: string) {
-    this.accessToken = accessToken;
-  }
-
-  async get<T>(path: string): Promise<TmdbApiResponse<T>> {
-    const response: HttpResponse<T> = await fetch(`${API_BASE_URL}${path}`, {
+  const response: Response = await fetch(
+    `${API_BASE_URL}${path}?${queryString}`,
+    {
       method: 'GET',
       headers: {
-        Authorization: `Bearer ${this.accessToken}`,
+        Authorization: `Bearer ${API_ACCESS_TOKEN}`,
         'Content-Type': 'application/json',
       },
-    });
+    },
+  );
 
-    try {
-      response.parsedBody = await response.json();
-    } catch (ex) {
-      throw new Error(`Error while parsing response body`);
+  try {
+    const jsonResponse: T = await response.json();
+
+    if (response.ok) {
+      return jsonResponse;
     }
 
-    if (!response.ok) {
-      throw new Error(response.statusText);
+    if (
+      jsonResponse &&
+      'status_code' in jsonResponse &&
+      'status_message' in jsonResponse
+    ) {
     }
 
-    return response.parsedBody as TmdbApiResponse<T>;
+    throw new Error(
+      `Something unexpected went wrong: ${response.status} ${response.statusText}`,
+    );
+  } catch (ex) {
+    throw new Error(`Error while parsing response body`);
   }
+};
 
-  async movies(
-    options: MovieSearchOptions,
-  ): Promise<TmdbApiResponse<Search<Movie>>> {
-    const params = new URLSearchParams(Object.entries(options));
-    return await this.get<Search<Movie>>(`${API_BASE_SEARCH}/movie?${params}`);
-  }
+export const fetchTmdbPaginated = <T>(
+  path: string,
+  page: number,
+  options: Option[] = [],
+) => {
+  return fetchTmdb<TmdbApiResponsePaginated<T>>(path, [
+    ...options,
+    { key: 'page', value: page },
+  ]);
+};
 
-  async movie(id: number): Promise<TmdbApiResponse<Movie>> {
-    return await this.get<Movie>(`${API_BASE_MOVIE}/movie/${id}`);
-  }
+export const searchMovies = (
+  query: string,
+  page: number,
+): Promise<TmdbApiResponsePaginated<MovieListResult[]>> => {
+  return fetchTmdbPaginated<MovieListResult[]>('/search/movie', page, [
+    { key: 'query', value: query },
+  ]);
+};
 
-  async popularMovies(options?: {
-    page?: number;
-  }): Promise<TmdbApiResponse<Movie>> {
-    const params = options ?? new URLSearchParams(options);
-    return await this.get<Movie>(`${API_BASE_MOVIE}/popular?${params}`);
-  }
-}
+export const movie = (id: number): Promise<Movie> => {
+  return fetchTmdb<Movie>(`/movie/${id}`);
+};
+
+export const movies = (
+  path: string,
+  page: number = 1,
+): Promise<TmdbApiResponsePaginated<MovieListResult[]>> => {
+  return fetchTmdbPaginated(path, page);
+};
