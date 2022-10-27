@@ -1,18 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-
-import Tmdb, { Movie } from '../../services/tmdb.service';
-
-const tmdb = new Tmdb(
-  process.env.REACT_APP_TMDB_ACCESS_KEY || 'access-token-needed',
-);
+import { MovieListResult, movies } from '../../services/tmdb.service';
 
 export default function PopularMovies() {
-  const [popularMovies, setPopularMovies] = useState<Movie[]>();
+  const [popularMovies, setPopularMovies] = useState<MovieListResult[]>();
 
   useEffect(() => {
     const fetchPopularMovies = async () => {
-      const { results } = await tmdb.popularMovies();
+      const { results } = await movies(`/movie/popular`, 1);
       setPopularMovies(results);
     };
 
@@ -23,9 +18,9 @@ export default function PopularMovies() {
     <>
       <ol>
         {popularMovies &&
-          popularMovies?.map((movie: Movie) => {
+          popularMovies?.map((movie) => {
             return (
-              <li>
+              <li key={movie.id}>
                 <Link to={`/movie/${String(movie.id)}`}>{movie.title}</Link>
               </li>
             );
