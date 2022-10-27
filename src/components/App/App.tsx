@@ -2,7 +2,7 @@ import { createBrowserRouter, Navigate, RouterProvider, useRouteError } from 're
 import Layout from '../Layout/Layout';
 
 import PopularMovies from '../PopularMovies/PopularMovies';
-import SearchResult from '../SearchResult/SearchResult';
+import SearchResult from '../Search/SearchResult';
 
 import '../../index.css';
 import MovieDetail from '../MovieDetail/MovieDetail';
