@@ -1,4 +1,4 @@
-import { Option, encodeURLParamString } from "../utils/encodeURLParamString";
+import { Option, encodeURLParamString } from '../utils/encodeURLParamString';
 
 export interface Genre {
   id: number;
@@ -133,8 +133,6 @@ export const fetchTmdbPaginated = <T>(
     { key: 'page', value: page },
   ]);
 };
-
-// TODO: Move these to where they are used instead
 
 export const searchMovies = (
   query: string,

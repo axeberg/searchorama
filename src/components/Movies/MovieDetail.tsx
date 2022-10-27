@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { Badge, Box, Container, Flex, Text } from 'theme-ui';
 import { movie } from '../../services/tmdb.service';
+import Loading from '../Loading/Loading';
+import { Placeholder, Poster } from '../Poster/Poster';
 
 export default function MovieDetail() {
   let params = useParams();
@@ -37,7 +39,11 @@ export default function MovieDetail() {
                 borderRadius: 1,
               }}
             >
-              {data.poster_path ? <p>Poster here</p> : <p>Placeholder here</p>}
+              {data.poster_path ? (
+                <Poster path={data.poster_path} imageType="poster" />
+              ) : (
+                <Placeholder imageType="poster" />
+              )}
             </Flex>
             <Flex sx={{ gridArea: 'title', flexDirection: 'column' }}>
               <Text as="h1" variant="heading">
@@ -96,7 +102,7 @@ export default function MovieDetail() {
   }
 
   if (status === 'loading') {
-    return <p>Loading…</p>;
+    return <Loading />;
   }
 
   if (status === 'error') {

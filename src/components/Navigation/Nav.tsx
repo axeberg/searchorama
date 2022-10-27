@@ -1,6 +1,5 @@
 import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { Box, Container, Flex, Link, MenuButton } from 'theme-ui';
+import { Box, Container, Flex, Link } from 'theme-ui';
 import Search from '../Search/Search';
 
 const Nav = () => {
@@ -14,7 +13,7 @@ const Nav = () => {
             }}
           >
             <Link
-              as={RouterLink}
+              href="/"
               variant="logo"
               sx={{
                 mr: 3,
@@ -28,7 +27,6 @@ const Nav = () => {
                 flex: '1',
               }}
             />
-            <MenuButton onClick={() => {}}>Menu</MenuButton>
           </Flex>
         </Container>
       </Box>

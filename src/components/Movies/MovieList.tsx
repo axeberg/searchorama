@@ -2,8 +2,10 @@ import React from 'react';
 import { Flex, Grid, Button, Link, Text } from 'theme-ui';
 import { Link as RouterLink } from 'react-router-dom';
 
-import { QueryStatus } from 'react-query';
 import { MovieListResult, TmdbApiError } from '../../services/tmdb.service';
+import { QueryStatus } from '@tanstack/react-query';
+import { Placeholder, Poster } from '../Poster/Poster';
+import Loading from '../Loading/Loading';
 
 interface MovieListProps {
   page: number;
@@ -60,9 +62,15 @@ const MovieList = ({
                 }}
               >
                 {movie.poster_path ? (
-                  <>{movie.title}</>
+                  <Poster
+                    path={movie.poster_path}
+                    imageType="poster"
+                    alt={movie.title}
+                    sizes="(max-width: 30em) 50vw, (max-width: 48em) 25vw, 20vw"
+                  />
                 ) : (
                   <React.Fragment>
+                    <Placeholder imageType="poster" />
                     <Text
                       sx={{
                         position: 'absolute',
@@ -111,7 +119,7 @@ const MovieList = ({
   }
 
   if (status === 'loading') {
-    return <p>Loading…</p>;
+    return <Loading />;
   }
 
   if (status === 'error') {
