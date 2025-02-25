@@ -1,4 +1,4 @@
-import { Container, Text } from 'theme-ui';
+import { Container, Text } from '@shadcn/ui';
 import useSearch from '../../hooks/useSearch';
 import { TmdbApiError } from '../../services/tmdb.service';
 import MovieList from '../Movies/MovieList';
