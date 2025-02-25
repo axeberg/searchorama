@@ -1,4 +1,4 @@
-import { Flex, Spinner } from 'theme-ui';
+import { Flex, Spinner } from '@shadcn/ui';
 
 const Loading = () => {
   return (

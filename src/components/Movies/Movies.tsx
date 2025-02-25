@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useCallback } from 'react';
-import { Text, Container } from 'theme-ui';
+import { Text, Container } from '@shadcn/ui';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import {
   MovieListResult,

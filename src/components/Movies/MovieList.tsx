@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex, Grid, Button, Link, Text } from 'theme-ui';
+import { Flex, Grid, Button, Link, Text } from '@shadcn/ui';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { MovieListResult, TmdbApiError } from '../../services/tmdb.service';
