@@ -7,7 +7,7 @@ import {
 } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { encodeString } from 'use-query-params';
-import { Input } from 'theme-ui';
+import { Input } from '@shadcn/ui';
 
 import useDebounce from '../../hooks/useDebounce';
 import usePrevious from '../../hooks/usePrevious';

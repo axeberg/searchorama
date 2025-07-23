@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Container, Flex, Link } from 'theme-ui';
+import { Box, Container, Flex, Link } from '@shadcn/ui';
 import Search from '../Search/Search';
 
 const Nav = () => {

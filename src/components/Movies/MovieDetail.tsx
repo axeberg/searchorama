@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import { Badge, Box, Container, Flex, Text } from 'theme-ui';
+import { Badge, Box, Container, Flex, Text } from '@shadcn/ui';
 import { movie } from '../../services/tmdb.service';
 import Loading from '../Loading/Loading';
 import { Placeholder, Poster } from '../Poster/Poster';
