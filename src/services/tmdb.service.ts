@@ -80,9 +80,9 @@ export interface TmdbApiError {
   status_code: number;
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api.themoviedb.org/3';
 const API_ACCESS_TOKEN =
-  import.meta.env.VITE_TMDB_ACCESS_KEY || 'invalid-token';
+  import.meta.env.VITE_TMDB_ACCESS_KEY || '';
 
 export const fetchTmdb = async <T>(
   path: string,
