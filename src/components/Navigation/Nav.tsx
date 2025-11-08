@@ -1,36 +1,23 @@
 import React from 'react';
-import { Box, Container, Flex, Link } from '@shadcn/ui';
 import Search from '../Search/Search';
 
 const Nav = () => {
   return (
-    <React.Fragment>
-      <Box as="nav">
-        <Container>
-          <Flex
-            sx={{
-              alignItems: 'center',
-            }}
+    <nav className="w-full">
+      <div className="container mx-auto max-w-screen-xl px-4 py-6">
+        <div className="flex items-center gap-4">
+          <a
+            href="/"
+            className="text-2xl font-bold text-foreground hover:text-primary transition-colors"
           >
-            <Link
-              href="/"
-              variant="logo"
-              sx={{
-                mr: 3,
-              }}
-            >
-              Searchorama
-            </Link>
-            <Search
-              sx={{
-                mr: 3,
-                flex: '1',
-              }}
-            />
-          </Flex>
-        </Container>
-      </Box>
-    </React.Fragment>
+            Searchorama
+          </a>
+          <div className="flex-1">
+            <Search />
+          </div>
+        </div>
+      </div>
+    </nav>
   );
 };
 

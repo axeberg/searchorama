@@ -8,8 +8,6 @@ import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryParamProvider } from 'use-query-params';
 
-import { ThemeProvider } from '@shadcn/ui';
-
 import { ReactRouter6Adapter } from 'use-query-params/adapters/react-router-6';
 
 import App from './components/App/App';
@@ -35,7 +33,6 @@ const queryConfig: QueryClientConfig = {
 const queryClient = new QueryClient(queryConfig);
 
 const GlobalProviders = combineProviders([
-  ThemeProvider,
   [QueryClientProvider, { client: queryClient }],
   [QueryParamProvider, { adapter: ReactRouter6Adapter }],
   SearchProvider,

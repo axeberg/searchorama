@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
-import { Badge, Box, Container, Flex, Text } from '@shadcn/ui';
+import { Badge } from '@/components/ui/badge';
 import { movie } from '../../services/tmdb.service';
 import Loading from '../Loading/Loading';
 import { Placeholder, Poster } from '../Poster/Poster';
@@ -13,91 +13,59 @@ export default function MovieDetail() {
 
   if (status === 'success' && data) {
     return (
-      <Box sx={{ position: 'relative' }}>
-        <Container>
-          <Box
-            sx={{
-              position: 'relative',
-              display: 'grid',
-              gridTemplateColumns: '1fr 2fr',
-              gridTemplateRows: 'min-content',
-              gridTemplateAreas: [
-                "'poster title' 'meta meta' 'overview overview'",
-                "'poster title' 'poster meta' 'poster overview'",
-              ],
-              columnGap: [3, 4],
-              rowGap: 3,
-              alignItems: 'end',
-              overflow: 'hidden',
-              zIndex: 1,
+      <div className="relative">
+        <div className="container mx-auto max-w-screen-xl px-4">
+          <div
+            className="relative grid md:grid-cols-[1fr_2fr] grid-rows-[min-content] gap-x-4 md:gap-x-6 gap-y-4 items-end overflow-hidden z-10"
+            style={{
+              gridTemplateAreas: window.innerWidth >= 768
+                ? "'poster title' 'poster meta' 'poster overview'"
+                : "'poster title' 'meta meta' 'overview overview'"
             }}
           >
-            <Flex
-              sx={{
-                gridArea: 'poster',
-                overflow: 'hidden',
-                borderRadius: 1,
-              }}
-            >
+            <div className="overflow-hidden rounded-md" style={{ gridArea: 'poster' }}>
               {data.poster_path ? (
                 <Poster path={data.poster_path} imageType="poster" />
               ) : (
                 <Placeholder imageType="poster" />
               )}
-            </Flex>
-            <Flex sx={{ gridArea: 'title', flexDirection: 'column' }}>
-              <Text as="h1" variant="heading">
+            </div>
+            <div className="flex flex-col" style={{ gridArea: 'title' }}>
+              <h1 className="text-5xl font-bold">
                 {data.title}
-              </Text>
+              </h1>
               {data.tagline && (
-                <Text sx={{ fontStyle: 'italic', mt: 3 }}>{data.tagline}</Text>
+                <p className="italic mt-4">{data.tagline}</p>
               )}
-            </Flex>
-            <Box sx={{ gridArea: 'meta', display: 'grid', gap: 2 }}>
-              <Flex sx={{ flexDirection: 'row' }}>
-                <Text as="time" title="Release year">
+            </div>
+            <div className="grid gap-2" style={{ gridArea: 'meta' }}>
+              <div className="flex flex-row gap-4">
+                <time title="Release year">
                   {new Date(data.release_date).getFullYear()}
-                </Text>
+                </time>
                 {data.runtime > 0 && (
-                  <Text title="Runtime" ml="3">{`${Math.floor(
+                  <span title="Runtime">{`${Math.floor(
                     data.runtime / 60,
-                  )} h ${data.runtime % 60} min`}</Text>
+                  )} h ${data.runtime % 60} min`}</span>
                 )}
-              </Flex>
+              </div>
               {data.genres.length > 0 && (
-                <Flex sx={{ alignItems: 'center', flexWrap: 'wrap', m: -1 }}>
+                <div className="flex items-center flex-wrap gap-2">
                   {data.genres.map((genre) => (
-                    <Badge key={genre.id} m="1" variant="plain">
+                    <Badge key={genre.id} variant="plain">
                       {genre.name}
                     </Badge>
                   ))}
-                </Flex>
+                </div>
               )}
-            </Box>
-            <Text sx={{ gridArea: 'overview' }}>{data.overview}</Text>
-          </Box>
-        </Container>
+            </div>
+            <p style={{ gridArea: 'overview' }}>{data.overview}</p>
+          </div>
+        </div>
         {data.backdrop_path && (
-          <Box
-            sx={{
-              position: 'absolute',
-              overflow: 'hidden',
-              maxHeight: '100%',
-              top: 0,
-              right: 0,
-              left: 0,
-              ':after': {
-                content: `""`,
-                position: 'absolute',
-                top: 0,
-                right: 0,
-                bottom: 0,
-                left: 0,
-              },
-            }}
-          ></Box>
+          <div className="absolute overflow-hidden max-h-full top-0 right-0 left-0 after:content-[''] after:absolute after:top-0 after:right-0 after:bottom-0 after:left-0"></div>
         )}
-      </Box>
+      </div>
     );
   }
 

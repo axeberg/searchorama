@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Image } from 'theme-ui';
+import { cn } from '@/lib/utils';
 
 export type ImageType = 'poster' | 'backdrop';
 
@@ -22,18 +22,15 @@ export const Poster = ({
 
   return (
     <React.Fragment>
-      <Image
+      <img
         src={`https://image.tmdb.org/t/p/w500/${path}`}
         sizes={sizes}
-        className={className}
+        className={cn(className, {
+          'invisible opacity-0 h-0 w-0': isLoadingImage,
+          'visible opacity-100 h-auto w-auto': !isLoadingImage,
+        })}
         alt={alt}
         onLoad={() => setIsLoadingImage(false)}
-        sx={{
-          visibility: isLoadingImage ? 'hidden' : 'visible',
-          opacity: isLoadingImage ? 0 : 1,
-          height: isLoadingImage ? 0 : 'auto',
-          width: isLoadingImage ? 0 : 'auto',
-        }}
       />
       {isLoadingImage && <Placeholder imageType={imageType} isLoading />}
     </React.Fragment>
