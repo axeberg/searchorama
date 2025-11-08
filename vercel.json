@@ -3,13 +3,6 @@
   "outputDirectory": "dist",
   "routes": [
     {
-      "src": "/manifest.json",
-      "dest": "/manifest.json",
-      "headers": {
-        "Content-Type": "application/manifest+json"
-      }
-    },
-    {
       "handle": "filesystem"
     },
     {
