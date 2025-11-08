@@ -1,6 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
 import React, { useCallback } from 'react';
-import { Text, Container } from 'theme-ui';
 import { useQueryParam, NumberParam } from 'use-query-params';
 import {
   MovieListResult,
@@ -30,10 +29,10 @@ const Movies = ({ title, endpoint }: MoviesProps) => {
   >(['movies', endpoint, page], () => movies(endpoint, page));
 
   return (
-    <Container sx={{ flex: 1 }}>
-      <Text as="h1" variant="heading" mb="4">
+    <div className="container mx-auto max-w-screen-xl px-4 flex-1">
+      <h1 className="text-5xl font-bold mb-8">
         {title}
-      </Text>
+      </h1>
       <MovieList
         movies={data?.results}
         page={page}
@@ -45,7 +44,7 @@ const Movies = ({ title, endpoint }: MoviesProps) => {
         status={status}
         error={error?.status_message}
       />
-    </Container>
+    </div>
   );
 };
 

@@ -1,11 +1,11 @@
 import React from 'react';
-import { Flex, Grid, Button, Link, Text } from 'theme-ui';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { MovieListResult, TmdbApiError } from '../../services/tmdb.service';
 import { QueryStatus } from '@tanstack/react-query';
 import { Placeholder, Poster } from '../Poster/Poster';
 import Loading from '../Loading/Loading';
+import { Button } from '@/components/ui/button';
 
 interface MovieListProps {
   page: number;
@@ -29,38 +29,15 @@ const MovieList = ({
   if (movies) {
     return (
       <React.Fragment>
-        <Grid columns={[2, 4, 5]} gap="3" sx={{ alignItems: 'center' }}>
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 items-center">
           {movies.map((movie) => (
-            <Link
-              as={RouterLink}
-              // @ts-ignore
+            <RouterLink
               to={`/movie/${movie.id}`}
               key={movie.id}
-              sx={{
-                position: 'relative',
-                height: movie.poster_path ? 'unset' : '100%',
-                width: '100%',
-                overflow: 'hidden',
-                borderRadius: 1,
-                opacity: 1,
-                transform: 'scale(1)',
-                transition:
-                  'transform 0.2s ease-in-out, opacity 0.2s ease-in-out',
-                ':hover, :focus': {
-                  opacity: 0.8,
-                },
-                ':active': {
-                  transform: 'scale(0.975)',
-                },
-              }}
+              className="relative w-full overflow-hidden rounded-md opacity-100 transform scale-100 transition-all duration-200 ease-in-out hover:opacity-80 active:scale-[0.975]"
+              style={{ height: movie.poster_path ? 'auto' : '100%' }}
             >
-              <Flex
-                sx={{
-                  height: '100%',
-                  width: '100%',
-                  justifyContent: 'center',
-                }}
-              >
+              <div className="flex h-full w-full justify-center">
                 {movie.poster_path ? (
                   <Poster
                     path={movie.poster_path}
@@ -71,30 +48,19 @@ const MovieList = ({
                 ) : (
                   <React.Fragment>
                     <Placeholder imageType="poster" />
-                    <Text
-                      sx={{
-                        position: 'absolute',
-                        width: '100%',
-                        textAlign: 'center',
-                        alignSelf: 'center',
-                        p: 2,
-                        fontWeight: 'bold',
-                        color: 'white',
-                      }}
-                    >
+                    <div className="absolute w-full text-center self-center p-2 font-bold text-white">
                       {movie.title}
-                    </Text>
+                    </div>
                   </React.Fragment>
                 )}
-              </Flex>
-            </Link>
+              </div>
+            </RouterLink>
           ))}
-        </Grid>
+        </div>
         {(showPreviousButton || showNextButton) && (
-          <Flex sx={{ mt: 3, justifyContent: 'center', flexDirection: 'row' }}>
+          <div className="mt-6 flex justify-center flex-row gap-3">
             {showPreviousButton && (
               <Button
-                mx="2"
                 variant="ghost"
                 disabled={status === 'loading'}
                 onClick={() => setPage(page - 1)}
@@ -104,7 +70,6 @@ const MovieList = ({
             )}
             {showNextButton && (
               <Button
-                mx="3"
                 variant="ghost"
                 disabled={status === 'loading'}
                 onClick={() => setPage(page + 1)}
@@ -112,7 +77,7 @@ const MovieList = ({
                 Next
               </Button>
             )}
-          </Flex>
+          </div>
         )}
       </React.Fragment>
     );

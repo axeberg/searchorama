@@ -1,16 +1,10 @@
-import { Flex, Spinner } from 'theme-ui';
+import { Loader2 } from 'lucide-react';
 
 const Loading = () => {
   return (
-    <Flex
-      sx={{
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: '1',
-      }}
-    >
-      <Spinner />
-    </Flex>
+    <div className="flex items-center justify-center flex-1">
+      <Loader2 className="h-8 w-8 animate-spin text-primary" />
+    </div>
   );
 };
 
