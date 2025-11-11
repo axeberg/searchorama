@@ -44,6 +44,7 @@ const MovieList = ({
                     imageType="poster"
                     alt={movie.title}
                     sizes="(max-width: 30em) 50vw, (max-width: 48em) 25vw, 20vw"
+                    movieId={movie.id}
                   />
                 ) : (
                   <React.Fragment>
