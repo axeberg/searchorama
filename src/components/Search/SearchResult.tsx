@@ -1,4 +1,3 @@
-import { Container, Text } from 'theme-ui';
 import useSearch from '../../hooks/useSearch';
 import { TmdbApiError } from '../../services/tmdb.service';
 import MovieList from '../Movies/MovieList';
@@ -8,10 +7,10 @@ export default function SearchResult() {
     useSearch();
 
   return (
-    <Container sx={{ flex: 1 }}>
-      <Text as="h1" variant="heading" mb="4">
+    <div className="container mx-auto max-w-screen-xl px-4 flex-1">
+      <h1 className="text-5xl font-bold mb-8">
         Results for "{query}"
-      </Text>
+      </h1>
       <MovieList
         movies={results}
         page={page}
@@ -21,6 +20,6 @@ export default function SearchResult() {
         status={status}
         error={(error as TmdbApiError)?.status_message}
       />
-    </Container>
+    </div>
   );
 }
