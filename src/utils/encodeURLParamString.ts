@@ -11,7 +11,7 @@ export type Option = {
  */
 export function encodeURLParamString(options: Option[]) {
   return options
-    .map(({ key, value }, index) => {
+    .map(({ key, value }) => {
       if (value === undefined) {
         return `&${encodeURIComponent(key)}`;
       }

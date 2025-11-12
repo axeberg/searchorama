@@ -24,7 +24,6 @@ const MovieList = ({
   showPreviousButton,
   showNextButton,
   status,
-  error,
 }: MovieListProps) => {
   if (movies) {
     return (
@@ -63,7 +62,7 @@ const MovieList = ({
             {showPreviousButton && (
               <Button
                 variant="ghost"
-                disabled={status === 'loading'}
+                disabled={status === 'pending'}
                 onClick={() => setPage(page - 1)}
               >
                 Previous
@@ -72,7 +71,7 @@ const MovieList = ({
             {showNextButton && (
               <Button
                 variant="ghost"
-                disabled={status === 'loading'}
+                disabled={status === 'pending'}
                 onClick={() => setPage(page + 1)}
               >
                 Next
@@ -84,7 +83,7 @@ const MovieList = ({
     );
   }
 
-  if (status === 'loading') {
+  if (status === 'pending') {
     return <Loading />;
   }
 
