@@ -26,7 +26,10 @@ const Movies = ({ title, endpoint }: MoviesProps) => {
   const { status, data, error } = useQuery<
     TmdbApiResponsePaginated<MovieListResult[]>,
     TmdbApiError
-  >(['movies', endpoint, page], () => movies(endpoint, page));
+  >({
+    queryKey: ['movies', endpoint, page],
+    queryFn: () => movies(endpoint, page),
+  });
 
   return (
     <div className="container mx-auto max-w-screen-xl px-4 flex-1">

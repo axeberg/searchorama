@@ -28,7 +28,7 @@ const initialState: InitalContextState = {
   page: 1,
   setPage: () => {},
   totalPages: undefined,
-  status: 'loading',
+  status: 'pending',
   error: undefined,
 };
 
@@ -54,7 +54,7 @@ const SearchProvider = ({ children }: ProviderProps) => {
   // Set the values
   const setQuery = useCallback(
     (query: string) => {
-      setQueryParams({ query }, 'push');
+      setQueryParams({ query });
     },
     [setQueryParams],
   );
@@ -69,7 +69,9 @@ const SearchProvider = ({ children }: ProviderProps) => {
   const { status, data, error } = useQuery<
     TmdbApiResponsePaginated<MovieListResult[]>,
     TmdbApiError | undefined
-  >(['search', query, page], () => searchMovies(query, page), {
+  >({
+    queryKey: ['search', query, page],
+    queryFn: () => searchMovies(query, page),
     enabled: isSearchRoute && query.length > 0,
   });
 

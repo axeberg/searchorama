@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { Loader2 } from 'lucide-react';
 
 export type ImageType = 'poster' | 'backdrop';
 
@@ -9,6 +10,7 @@ interface PosterProps {
   className?: string;
   alt?: string;
   sizes?: string;
+  movieId?: number;
 }
 
 export const Poster = ({
@@ -17,23 +19,38 @@ export const Poster = ({
   className,
   alt,
   sizes,
+  movieId,
 }: PosterProps) => {
   const [isLoadingImage, setIsLoadingImage] = useState(true);
+  const aspectRatio = imageType === 'poster' ? 2 / 3 : 16 / 9;
 
   return (
-    <React.Fragment>
+    <div
+      className={cn(
+        'relative w-full bg-muted rounded-md overflow-hidden',
+        className,
+      )}
+      style={{
+        aspectRatio: aspectRatio.toString(),
+      }}
+    >
+      {isLoadingImage && (
+        <div className="absolute inset-0 flex items-center justify-center bg-muted">
+          <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        </div>
+      )}
       <img
         src={`https://image.tmdb.org/t/p/w500/${path}`}
         sizes={sizes}
-        className={cn(className, {
-          'invisible opacity-0 h-0 w-0': isLoadingImage,
-          'visible opacity-100 h-auto w-auto': !isLoadingImage,
-        })}
         alt={alt}
         onLoad={() => setIsLoadingImage(false)}
+        className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-200"
+        style={{
+          opacity: isLoadingImage ? 0 : 1,
+          viewTransitionName: movieId ? `poster-${movieId}` : undefined,
+        }}
       />
-      {isLoadingImage && <Placeholder imageType={imageType} isLoading />}
-    </React.Fragment>
+    </div>
   );
 };
 
@@ -43,5 +60,16 @@ interface PlaceholderProps {
 }
 
 export const Placeholder = ({ imageType, isLoading }: PlaceholderProps) => {
-  return <>Loading</>;
+  const aspectRatio = imageType === 'poster' ? 2 / 3 : 16 / 9;
+
+  return (
+    <div
+      className="flex items-center justify-center w-full bg-muted rounded-md"
+      style={{
+        aspectRatio: aspectRatio.toString(),
+      }}
+    >
+      {isLoading && <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />}
+    </div>
+  );
 };

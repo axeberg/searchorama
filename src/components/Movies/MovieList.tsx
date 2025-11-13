@@ -4,7 +4,6 @@ import { Link as RouterLink } from 'react-router-dom';
 import { MovieListResult, TmdbApiError } from '../../services/tmdb.service';
 import { QueryStatus } from '@tanstack/react-query';
 import { Placeholder, Poster } from '../Poster/Poster';
-import Loading from '../Loading/Loading';
 import { Button } from '@/components/ui/button';
 
 interface MovieListProps {
@@ -24,7 +23,6 @@ const MovieList = ({
   showPreviousButton,
   showNextButton,
   status,
-  error,
 }: MovieListProps) => {
   if (movies) {
     return (
@@ -44,6 +42,7 @@ const MovieList = ({
                     imageType="poster"
                     alt={movie.title}
                     sizes="(max-width: 30em) 50vw, (max-width: 48em) 25vw, 20vw"
+                    movieId={movie.id}
                   />
                 ) : (
                   <React.Fragment>
@@ -62,7 +61,7 @@ const MovieList = ({
             {showPreviousButton && (
               <Button
                 variant="ghost"
-                disabled={status === 'loading'}
+                disabled={status === 'pending'}
                 onClick={() => setPage(page - 1)}
               >
                 Previous
@@ -71,7 +70,7 @@ const MovieList = ({
             {showNextButton && (
               <Button
                 variant="ghost"
-                disabled={status === 'loading'}
+                disabled={status === 'pending'}
                 onClick={() => setPage(page + 1)}
               >
                 Next
@@ -83,8 +82,14 @@ const MovieList = ({
     );
   }
 
-  if (status === 'loading') {
-    return <Loading />;
+  if (status === 'pending') {
+    return (
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 items-center">
+        {Array.from({ length: 10 }).map((_, i) => (
+          <Placeholder key={i} imageType="poster" />
+        ))}
+      </div>
+    );
   }
 
   if (status === 'error') {
