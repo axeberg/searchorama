@@ -1,6 +1,6 @@
+import { Loader2 } from 'lucide-react';
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Loader2 } from 'lucide-react';
 
 export type ImageType = 'poster' | 'backdrop';
 
@@ -13,23 +13,13 @@ interface PosterProps {
   movieId?: number;
 }
 
-export const Poster = ({
-  path,
-  imageType,
-  className,
-  alt,
-  sizes,
-  movieId,
-}: PosterProps) => {
+export const Poster = ({ path, imageType, className, alt, sizes, movieId }: PosterProps) => {
   const [isLoadingImage, setIsLoadingImage] = useState(true);
   const aspectRatio = imageType === 'poster' ? 2 / 3 : 16 / 9;
 
   return (
     <div
-      className={cn(
-        'relative w-full bg-muted rounded-md overflow-hidden',
-        className,
-      )}
+      className={cn('relative w-full bg-muted rounded-md overflow-hidden', className)}
       style={{
         aspectRatio: aspectRatio.toString(),
       }}

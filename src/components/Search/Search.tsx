@@ -1,10 +1,4 @@
-import {
-  ChangeEvent,
-  ComponentProps,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { type ChangeEvent, type ComponentProps, useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { encodeString } from 'use-query-params';
 import { Input } from '@/components/ui/input';
@@ -23,10 +17,7 @@ export default function Search(props: ComponentProps<typeof Input>) {
   const previousValueDebounced = usePrevious(valueDebounced);
 
   useEffect(() => {
-    if (
-      previousValueDebounced !== valueDebounced &&
-      valueDebounced.length > 0
-    ) {
+    if (previousValueDebounced !== valueDebounced && valueDebounced.length > 0) {
       if (location.pathname !== '/search') {
         navigate({
           pathname: '/search',
@@ -36,14 +27,7 @@ export default function Search(props: ComponentProps<typeof Input>) {
         setQuery(valueDebounced);
       }
     }
-  }, [
-    query,
-    setQuery,
-    valueDebounced,
-    previousValueDebounced,
-    navigate,
-    location,
-  ]);
+  }, [query, setQuery, valueDebounced, previousValueDebounced, navigate, location]);
 
   useEffect(() => {
     setValue(query);

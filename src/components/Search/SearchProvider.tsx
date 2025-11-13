@@ -1,13 +1,13 @@
-import { QueryStatus, useQuery } from '@tanstack/react-query';
-import { createContext, ReactNode, useCallback } from 'react';
+import { type QueryStatus, useQuery } from '@tanstack/react-query';
+import { createContext, type ReactNode, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import { NumberParam, StringParam, useQueryParams } from 'use-query-params';
 
 import {
-  MovieListResult,
+  type MovieListResult,
   searchMovies,
-  TmdbApiError,
-  TmdbApiResponsePaginated,
+  type TmdbApiError,
+  type TmdbApiResponsePaginated,
 } from '../../services/tmdb.service';
 
 export interface InitalContextState {

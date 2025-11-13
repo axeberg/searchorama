@@ -1,11 +1,11 @@
-import { useRef, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 /**
  * This is a common use-case for retrieving previous values of props or state
  * when in a functional component (hence without lifecycle methods or a specific instance).
  *
  * Leverages the internal useRef hook to create a container which has a mutable property.
- * 
+ *
  * Reference: // https://usehooks.com/usePrevious/
  *
  * @param value Any value, hence the generic

@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
-import React, { useCallback } from 'react';
-import { useQueryParam, NumberParam } from 'use-query-params';
+import { useCallback } from 'react';
+import { NumberParam, useQueryParam } from 'use-query-params';
 import {
-  MovieListResult,
+  type MovieListResult,
   movies,
-  TmdbApiError,
-  TmdbApiResponsePaginated,
+  type TmdbApiError,
+  type TmdbApiResponsePaginated,
 } from '../../services/tmdb.service';
 import MovieList from './MovieList';
 
@@ -33,17 +33,13 @@ const Movies = ({ title, endpoint }: MoviesProps) => {
 
   return (
     <div className="container mx-auto max-w-screen-xl px-4 flex-1">
-      <h1 className="text-5xl font-bold mb-8">
-        {title}
-      </h1>
+      <h1 className="text-5xl font-bold mb-8">{title}</h1>
       <MovieList
         movies={data?.results}
         page={page}
         setPage={setPage}
         showPreviousButton={page > 1}
-        showNextButton={
-          data?.total_pages !== undefined && page < data.total_pages
-        }
+        showNextButton={data?.total_pages !== undefined && page < data.total_pages}
         status={status}
         error={error?.status_message}
       />

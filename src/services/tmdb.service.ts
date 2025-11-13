@@ -1,4 +1,4 @@
-import { Option, encodeURLParamString } from '../utils/encodeURLParamString';
+import { encodeURLParamString, type Option } from '../utils/encodeURLParamString';
 
 export interface Genre {
   id: number;
@@ -81,25 +81,18 @@ export interface TmdbApiError {
 }
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api.themoviedb.org/3';
-const API_ACCESS_TOKEN =
-  import.meta.env.VITE_TMDB_ACCESS_KEY || '';
+const API_ACCESS_TOKEN = import.meta.env.VITE_TMDB_ACCESS_KEY || '';
 
-export const fetchTmdb = async <T>(
-  path: string,
-  options: Option[] = [],
-): Promise<T> => {
+export const fetchTmdb = async <T>(path: string, options: Option[] = []): Promise<T> => {
   const queryString = encodeURLParamString(options);
 
-  const response: Response = await fetch(
-    `${API_BASE_URL}${path}?${queryString}`,
-    {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${API_ACCESS_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
+  const response: Response = await fetch(`${API_BASE_URL}${path}?${queryString}`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${API_ACCESS_TOKEN}`,
+      'Content-Type': 'application/json',
     },
-  );
+  });
 
   try {
     const jsonResponse: T = await response.json();
@@ -108,30 +101,17 @@ export const fetchTmdb = async <T>(
       return jsonResponse;
     }
 
-    if (
-      jsonResponse &&
-      'status_code' in jsonResponse &&
-      'status_message' in jsonResponse
-    ) {
+    if (jsonResponse && 'status_code' in jsonResponse && 'status_message' in jsonResponse) {
     }
 
-    throw new Error(
-      `Something unexpected went wrong: ${response.status} ${response.statusText}`,
-    );
-  } catch (ex) {
+    throw new Error(`Something unexpected went wrong: ${response.status} ${response.statusText}`);
+  } catch (_ex) {
     throw new Error(`Error while parsing response body`);
   }
 };
 
-export const fetchTmdbPaginated = <T>(
-  path: string,
-  page: number,
-  options: Option[] = [],
-) => {
-  return fetchTmdb<TmdbApiResponsePaginated<T>>(path, [
-    ...options,
-    { key: 'page', value: page },
-  ]);
+export const fetchTmdbPaginated = <T>(path: string, page: number, options: Option[] = []) => {
+  return fetchTmdb<TmdbApiResponsePaginated<T>>(path, [...options, { key: 'page', value: page }]);
 };
 
 export const searchMovies = (

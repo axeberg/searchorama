@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { SearchContext, InitalContextState } from '../components/Search/SearchProvider';
+import { type InitalContextState, SearchContext } from '../components/Search/SearchProvider';
 
 const useSearch = (): InitalContextState => {
   const state = useContext(SearchContext);

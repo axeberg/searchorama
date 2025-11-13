@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { MovieListResult, movies } from '../../services/tmdb.service';
+import { type MovieListResult, movies } from '../../services/tmdb.service';
 
 export default function PopularMovies() {
   const [popularMovies, setPopularMovies] = useState<MovieListResult[]>();
@@ -15,17 +15,14 @@ export default function PopularMovies() {
   }, []);
 
   return (
-    <>
-      <ol>
-        {popularMovies &&
-          popularMovies?.map((movie) => {
-            return (
-              <li key={movie.id}>
-                <Link to={`/movie/${String(movie.id)}`}>{movie.title}</Link>
-              </li>
-            );
-          })}
-      </ol>
-    </>
+    <ol>
+      {popularMovies?.map((movie) => {
+        return (
+          <li key={movie.id}>
+            <Link to={`/movie/${String(movie.id)}`}>{movie.title}</Link>
+          </li>
+        );
+      })}
+    </ol>
   );
 }

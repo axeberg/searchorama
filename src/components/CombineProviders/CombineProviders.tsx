@@ -1,8 +1,6 @@
 import * as React from 'react';
 
-type ProviderComponentType<T = any> =
-  | React.ComponentType<T>
-  | [React.ComponentType<T>, T];
+type ProviderComponentType<T = any> = React.ComponentType<T> | [React.ComponentType<T>, T];
 
 /**
  * Funtion to handle multiple initiate Providers.
@@ -30,17 +28,9 @@ const CombineProviders = (providers: ProviderComponentType[]) => {
         if (Array.isArray(currentProvider)) {
           const [ProviderComponent, providerProps] = currentProvider;
           // create new element with props
-          return React.createElement(
-            ProviderComponent,
-            providerProps,
-            childrenOfCurrentProvider,
-          );
+          return React.createElement(ProviderComponent, providerProps, childrenOfCurrentProvider);
         }
-        return React.createElement(
-          currentProvider,
-          {},
-          childrenOfCurrentProvider,
-        );
+        return React.createElement(currentProvider, {}, childrenOfCurrentProvider);
       },
       // set children of combination provider as initial value (children of deepest provider)
       children as React.ReactElement,

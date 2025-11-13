@@ -1,8 +1,4 @@
-import {
-  QueryClient,
-  QueryClientConfig,
-  QueryClientProvider,
-} from '@tanstack/react-query';
+import { QueryClient, type QueryClientConfig, QueryClientProvider } from '@tanstack/react-query';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
@@ -17,9 +13,7 @@ import SearchProvider from './components/Search/SearchProvider';
 import './index.css';
 import Nav from './components/Navigation/Nav';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement,
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 const queryConfig: QueryClientConfig = {
   defaultOptions: {

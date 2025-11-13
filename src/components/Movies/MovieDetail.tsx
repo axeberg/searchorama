@@ -1,13 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'react-router-dom';
 import { Badge } from '@/components/ui/badge';
-import { movie, Movie } from '../../services/tmdb.service';
+import { type Movie, movie } from '../../services/tmdb.service';
 import { Placeholder, Poster } from '../Poster/Poster';
-import { Loader2 } from 'lucide-react';
 
 export default function MovieDetail() {
-  let params = useParams();
-  const movieId = Number.parseInt(params.movieId!);
+  const params = useParams();
+  const movieId = Number.parseInt(params.movieId!, 10);
 
   const { status, data } = useQuery<Movie>({
     queryKey: ['movie', movieId],
@@ -51,9 +50,10 @@ export default function MovieDetail() {
           <div
             className="relative grid md:grid-cols-[1fr_2fr] grid-rows-[min-content] gap-x-4 md:gap-x-6 gap-y-4 items-end overflow-hidden z-10"
             style={{
-              gridTemplateAreas: window.innerWidth >= 768
-                ? "'poster title' 'poster meta' 'poster overview'"
-                : "'poster title' 'meta meta' 'overview overview'"
+              gridTemplateAreas:
+                window.innerWidth >= 768
+                  ? "'poster title' 'poster meta' 'poster overview'"
+                  : "'poster title' 'meta meta' 'overview overview'",
             }}
           >
             <div className="overflow-hidden rounded-md" style={{ gridArea: 'poster' }}>
@@ -64,18 +64,12 @@ export default function MovieDetail() {
               )}
             </div>
             <div className="flex flex-col" style={{ gridArea: 'title' }}>
-              <h1 className="text-5xl font-bold">
-                {data.title}
-              </h1>
-              {data.tagline && (
-                <p className="italic mt-4">{data.tagline}</p>
-              )}
+              <h1 className="text-5xl font-bold">{data.title}</h1>
+              {data.tagline && <p className="italic mt-4">{data.tagline}</p>}
             </div>
             <div className="grid gap-2" style={{ gridArea: 'meta' }}>
               <div className="flex flex-row gap-4 items-center">
-                <time title="Release year">
-                  {new Date(data.release_date).getFullYear()}
-                </time>
+                <time title="Release year">{new Date(data.release_date).getFullYear()}</time>
                 {data.runtime > 0 && (
                   <span title="Runtime">{`${Math.floor(
                     data.runtime / 60,

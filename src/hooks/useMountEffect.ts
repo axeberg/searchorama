@@ -1,4 +1,4 @@
-import { useEffect, EffectCallback } from 'react';
+import { type EffectCallback, useEffect } from 'react';
 
 /**
  * Run's an effect on mount, and is cleaned up on unmount.

@@ -1,10 +1,9 @@
+import type { QueryStatus } from '@tanstack/react-query';
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-
-import { MovieListResult, TmdbApiError } from '../../services/tmdb.service';
-import { QueryStatus } from '@tanstack/react-query';
-import { Placeholder, Poster } from '../Poster/Poster';
 import { Button } from '@/components/ui/button';
+import type { MovieListResult, TmdbApiError } from '../../services/tmdb.service';
+import { Placeholder, Poster } from '../Poster/Poster';
 
 interface MovieListProps {
   page: number;

@@ -18,12 +18,15 @@ export default function App() {
 }
 
 export function RootErrorBoundary() {
-  let error = useRouteError() as Error;
+  const error = useRouteError() as Error;
+  const handleReload = () => {
+    window.location.href = '/';
+  };
   return (
     <div>
       <h1>Uh oh, something went terribly wrong 😩</h1>
       <pre>{error.message || JSON.stringify(error)}</pre>
-      <button onClick={() => (window.location.href = '/')}>
+      <button type="button" onClick={handleReload}>
         Click here to reload the app
       </button>
     </div>
