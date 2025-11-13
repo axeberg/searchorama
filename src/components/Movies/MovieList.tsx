@@ -4,7 +4,6 @@ import { Link as RouterLink } from 'react-router-dom';
 import { MovieListResult, TmdbApiError } from '../../services/tmdb.service';
 import { QueryStatus } from '@tanstack/react-query';
 import { Placeholder, Poster } from '../Poster/Poster';
-import Loading from '../Loading/Loading';
 import { Button } from '@/components/ui/button';
 
 interface MovieListProps {
@@ -84,7 +83,13 @@ const MovieList = ({
   }
 
   if (status === 'pending') {
-    return <Loading />;
+    return (
+      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 items-center">
+        {Array.from({ length: 10 }).map((_, i) => (
+          <Placeholder key={i} imageType="poster" />
+        ))}
+      </div>
+    );
   }
 
   if (status === 'error') {
