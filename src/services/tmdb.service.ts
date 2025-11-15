@@ -101,7 +101,14 @@ export const fetchTmdb = async <T>(path: string, options: Option[] = []): Promis
       return jsonResponse;
     }
 
-    if (jsonResponse && 'status_code' in jsonResponse && 'status_message' in jsonResponse) {
+    if (
+      typeof jsonResponse === 'object' &&
+      jsonResponse !== null &&
+      'status_code' in jsonResponse &&
+      'status_message' in jsonResponse
+    ) {
+      const error = jsonResponse as unknown as TmdbApiError;
+      throw new Error(`TMDB API Error: ${error.status_message}`);
     }
 
     throw new Error(`Something unexpected went wrong: ${response.status} ${response.statusText}`);
